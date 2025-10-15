@@ -170,6 +170,27 @@ async function postQuoteToServer(quote) {
 }
 
 // -----------------------------
+// ✅ Sync Quotes Function (NEW)
+// -----------------------------
+async function syncQuotes() {
+  try {
+    console.log("Syncing local quotes with server...");
+    for (const quote of quotes) {
+      await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quote),
+      });
+    }
+    console.log("All local quotes synced to server!");
+  } catch (error) {
+    console.error("Error syncing quotes:", error);
+  }
+}
+
+// -----------------------------
 // Event Listeners
 // -----------------------------
 newQuoteButton.addEventListener("click", showRandomQuote);
