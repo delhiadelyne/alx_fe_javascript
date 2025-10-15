@@ -150,7 +150,7 @@ async function fetchQuotesFromServer() {
 }
 
 // -----------------------------
-// Posting Data to Mock API ✅
+// Posting Data to Mock API
 // -----------------------------
 
 async function postQuoteToServer(quote) {
@@ -170,7 +170,7 @@ async function postQuoteToServer(quote) {
 }
 
 // -----------------------------
-// ✅ Sync Quotes Function (NEW)
+// Sync Quotes Function
 // -----------------------------
 async function syncQuotes() {
   try {
@@ -189,6 +189,14 @@ async function syncQuotes() {
     console.error("Error syncing quotes:", error);
   }
 }
+
+// -----------------------------
+// ✅ Periodically Check for New Quotes
+// -----------------------------
+setInterval(() => {
+  console.log("Checking for new quotes from the server...");
+  fetchQuotesFromServer();
+}, 30000); // Every 30 seconds
 
 // -----------------------------
 // Event Listeners
