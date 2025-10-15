@@ -1,25 +1,24 @@
-// Fetch quotes from a local JSON file or mock server
-function fetchQuotesFromServer() {
-  fetch('quotes.json') // Change this path if your file or API is located elsewhere
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network error while fetching quotes');
-      }
-      return response.json();
-    })
-    .then(data => {
-      quotes = data;
-      saveQuotes(); // Save fetched quotes to local storage
-      populateCategories(); // Refresh the categories dropdown
-      displayRandomQuote(); // Display one of the fetched quotes
-      console.log('Quotes fetched successfully from server!');
-    })
-    .catch(error => {
-      console.error('Error fetching quotes:', error);
-    });
+// --- Fetching Data from a Mock API (Optional Enhancement) ---
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await response.json();
+
+    // Convert mock posts into quote-like objects
+    const apiQuotes = data.slice(0, 5).map(item => ({
+      text: item.title,
+      category: "API Data"
+    }));
+
+    // Merge with existing quotes
+    quotes.push(...apiQuotes);
+    saveQuotes();
+    populateCategories();
+    console.log("Quotes fetched from server and added successfully!");
+  } catch (error) {
+    console.error("Error fetching quotes from server:", error);
+  }
 }
 
-// Optional: Automatically fetch quotes when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-  fetchQuotesFromServer();
-});
+// Automatically fetch quotes when the page loads
+document.addEventListener("DOMContentLoaded", fetchQuotesFromServer);
